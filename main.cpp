@@ -345,10 +345,10 @@ int main(int argc, char *argv[]){
   }
 
 
-   cameraMatrix[0] = cv::Mat::eye(3, 3, CV_64F);
-   cameraMatrix[1] = cv::Mat::eye(3, 3, CV_64F);
-   distCoeffs[0] = cv::Mat::zeros(1, 8, CV_64F);
-   distCoeffs[1] = cv::Mat::zeros(1, 8, CV_64F);
+   // cameraMatrix[0] = cv::Mat::eye(3, 3, CV_64F);
+   // cameraMatrix[1] = cv::Mat::eye(3, 3, CV_64F);
+   // distCoeffs[0] = cv::Mat::zeros(1, 8, CV_64F);
+   // distCoeffs[1] = cv::Mat::zeros(1, 8, CV_64F);
 
 
     cv::initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, rgb[0].size(), CV_16SC2, rmap[0][0], rmap[0][1]);
@@ -381,24 +381,29 @@ int main(int argc, char *argv[]){
 	  {
 	    if(k == 0){
 	      cv::Mat img = rgb[i].clone(), rimg, cimg;
-	      cv::remap(img, cimg, rmap[k][0], rmap[k][1], CV_INTER_LINEAR);
+	      //cv::remap(img, cimg, rmap[k][0], rmap[k][1], CV_INTER_LINEAR);
 	      undistort(img, rimg, cameraMatrix[0], distCoeffs[0]);
 	      //cv::cvtColor(rimg, cimg, CV_GRAY2BGR);
 	      cv::Mat canvasPart = canvas(cv::Rect(w * k, 0, w,h));
 	      cv::resize(rimg, canvasPart, canvasPart.size(), 0, 0, CV_INTER_AREA);
-	      // if( useCalibrated )
-	      // 	{
-	      // 	  Rect vroi(cvRound(validRoi[k].x*sf), cvRound(validRoi[k].y*sf),
-	      // 		    cvRound(validRoi[k].width*sf), cvRound(validRoi[k].height*sf));
-            	      // 	  rectangle(canvasPart, vroi, Scalar(0,0,255), 3, 8);
-	      // 	}
+	      {
+		cv::Rect vroi(cvRound(validRoi[k].x*sf), cvRound(validRoi[k].y*sf),
+			      cvRound(validRoi[k].width*sf), cvRound(validRoi[k].height*sf));
+		cv::rectangle(canvasPart, vroi, cv::Scalar(0,0,255), 3, 8);
+	      }
 	    }else{
 	      cv::Mat img = depth[i].clone(), rimg, cimg;
-	      cv::remap(img, rimg, rmap[k][0], rmap[k][1], CV_INTER_LINEAR);
+	      //cv::remap(img, img, rmap[k][0], rmap[k][1], CV_INTER_LINEAR);
 	      undistort(img, rimg, cameraMatrix[1], distCoeffs[1]);
 	      cvtColor(rimg, cimg, CV_GRAY2BGR);
 	      cv::Mat canvasPart = canvas(cv::Rect(w * k, 0, w, h));
 	      cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, CV_INTER_AREA);
+
+	      {
+		cv::Rect vroi(cvRound(validRoi[k].x*sf), cvRound(validRoi[k].y*sf),
+			      cvRound(validRoi[k].width*sf), cvRound(validRoi[k].height*sf));
+		cv::rectangle(canvasPart, vroi, cv::Scalar(0,0,255), 3, 8);
+	      	}
 	    }
 	  }
 
