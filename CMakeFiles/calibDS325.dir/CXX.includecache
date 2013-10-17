@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/masahiko/Programs/transView/main.cpp
+/Users/masahiko/Programs/transView/main.cpp
 opencv2/opencv.hpp
 -
 iostream

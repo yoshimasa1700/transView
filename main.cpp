@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
 
   cv::vector<cv::Mat> rgb(0), depth(0); // checker pattern
   int fileNum = FLAGS_fileNum;
-  const cv::Size patternSize( 6, 9 );
+  const cv::Size patternSize( 9, 6 );
   cv::vector<cv::vector<cv::Point3f> > worldPoints(fileNum);
   cv::vector<cv::vector<cv::Point2f> > imagePoints(fileNum);	
   cv::TermCriteria criteria( CV_TERMCRIT_ITER | CV_TERMCRIT_EPS, 20, 0.001 );
@@ -309,7 +309,7 @@ int main(int argc, char *argv[]){
     
     cout << "loading : " << rgbfilename.str() << " and " << depthfilename.str() << endl;
 
-    rgb.push_back(cv::imread(rgbfilename.str(), 3));
+    rgb.push_back(cv::imread(rgbfilename.str(), 0));
     depth.push_back(cv::imread(depthfilename.str(), CV_LOAD_IMAGE_ANYDEPTH));
   }
 
@@ -327,7 +327,10 @@ int main(int argc, char *argv[]){
     depth[i] -= minDist;
 
     depth[i].convertTo(depth[i], CV_8UC1, 255.0 / (MAX_DEPTH - MIN_DEPTH));
-    cv::resize(depth[i], depth[i], cv::Size(), 2.0,2.0);
+    
+
+
+cv::resize(depth[i], depth[i], cv::Size(), 2.0,2.0);
     //cv::threshold(depth[i], depth[i], 200, 255.0, cv::THRESH_BINARY);
 
     //cv::vector<cv::Point2f> depthCorners;
@@ -351,8 +354,11 @@ int main(int argc, char *argv[]){
    // distCoeffs[1] = cv::Mat::zeros(1, 8, CV_64F);
 
 
-    cv::initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, rgb[0].size(), CV_16SC2, rmap[0][0], rmap[0][1]);
-    cv::initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2, rgb[0].size(), CV_16SC2, rmap[1][0], rmap[1][1]);
+  cv::initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, rgb[0].size(), CV_16SC2, rmap[0][0], rmap[0][1]);
+  cv::initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R1, P2, rgb[0].size(), CV_16SC2, rmap[1][0], rmap[1][1]);
+
+
+  //std::cout << rmap[0][0] << " " << rmap[0][1] << std::endl;
 
     cv::Mat canvas;
     double sf;
@@ -381,11 +387,11 @@ int main(int argc, char *argv[]){
 	  {
 	    if(k == 0){
 	      cv::Mat img = rgb[i].clone(), rimg, cimg;
-	      //cv::remap(img, cimg, rmap[k][0], rmap[k][1], CV_INTER_LINEAR);
-	      undistort(img, rimg, cameraMatrix[0], distCoeffs[0]);
-	      //cv::cvtColor(rimg, cimg, CV_GRAY2BGR);
+	      //cv::remap(img, rimg, rmap[k][0], rmap[k][1], CV_INTER_LINEAR);
+	      undistort(img, cimg, cameraMatrix[0], distCoeffs[0]);
+	      cv::cvtColor(cimg, cimg, CV_GRAY2BGR);
 	      cv::Mat canvasPart = canvas(cv::Rect(w * k, 0, w,h));
-	      cv::resize(rimg, canvasPart, canvasPart.size(), 0, 0, CV_INTER_AREA);
+	      cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, CV_INTER_AREA);
 	      {
 		cv::Rect vroi(cvRound(validRoi[k].x*sf), cvRound(validRoi[k].y*sf),
 			      cvRound(validRoi[k].width*sf), cvRound(validRoi[k].height*sf));
