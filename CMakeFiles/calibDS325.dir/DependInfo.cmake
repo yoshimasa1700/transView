@@ -4,7 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/masahiko/Programs/transView/main.cpp" "/Users/masahiko/Programs/transView/CMakeFiles/calibDS325.dir/main.cpp.o"
+  "/home/masahiko/Programs/transView/main.cpp" "/home/masahiko/Programs/transView/CMakeFiles/calibDS325.dir/main.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

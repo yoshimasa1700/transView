@@ -330,7 +330,7 @@ int main(int argc, char *argv[]){
     
 
 
-cv::resize(depth[i], depth[i], cv::Size(), 2.0,2.0);
+    cv::resize(depth[i], depth[i], cv::Size(), 2.0,2.0);
     //cv::threshold(depth[i], depth[i], 200, 255.0, cv::THRESH_BINARY);
 
     //cv::vector<cv::Point2f> depthCorners;
@@ -402,8 +402,11 @@ cv::resize(depth[i], depth[i], cv::Size(), 2.0,2.0);
 	      //cv::remap(img, img, rmap[k][0], rmap[k][1], CV_INTER_LINEAR);
 	      undistort(img, rimg, cameraMatrix[1], distCoeffs[1]);
 	      cvtColor(rimg, cimg, CV_GRAY2BGR);
+
+	      cv::Mat depthPart = cimg(cv::Rect(40, 43,498,498 / 4 * 3));
+
 	      cv::Mat canvasPart = canvas(cv::Rect(w * k, 0, w, h));
-	      cv::resize(cimg, canvasPart, canvasPart.size(), 0, 0, CV_INTER_AREA);
+	      cv::resize(depthPart, canvasPart, canvasPart.size(), 0, 0, CV_INTER_AREA);
 
 	      {
 		cv::Rect vroi(cvRound(validRoi[k].x*sf), cvRound(validRoi[k].y*sf),
