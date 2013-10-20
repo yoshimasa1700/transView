@@ -370,7 +370,7 @@ int main(int argc, char *argv[]){
     sf = 600./MAX(rgb[0].size().width, rgb[0].size().height);
     w = cvRound(rgb[0].size().width*sf);
     h = cvRound(rgb[0].size().height*sf);
-    canvas.create(h, w*2, CV_8UC3);
+    canvas.create(h, w*2, CV_8C3);
     // }
     // else
     // {

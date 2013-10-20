@@ -31,9 +31,6 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
-# Escaping for special characters.
-EQUALS = =
-
 # The program to use to edit the cache.
 CMAKE_EDIT_COMMAND = /usr/bin/cmake-gui
 
@@ -83,7 +80,6 @@ calibDS325_OBJECTS = \
 calibDS325_EXTERNAL_OBJECTS =
 
 calibDS325: CMakeFiles/calibDS325.dir/main.cpp.o
-calibDS325: CMakeFiles/calibDS325.dir/build.make
 calibDS325: /usr/local/lib/libopencv_calib3d.so
 calibDS325: /usr/local/lib/libopencv_contrib.so
 calibDS325: /usr/local/lib/libopencv_core.so
@@ -102,6 +98,7 @@ calibDS325: /usr/local/lib/libopencv_superres.so
 calibDS325: /usr/local/lib/libopencv_ts.so
 calibDS325: /usr/local/lib/libopencv_video.so
 calibDS325: /usr/local/lib/libopencv_videostab.so
+calibDS325: CMakeFiles/calibDS325.dir/build.make
 calibDS325: CMakeFiles/calibDS325.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable calibDS325"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/calibDS325.dir/link.txt --verbose=$(VERBOSE)
